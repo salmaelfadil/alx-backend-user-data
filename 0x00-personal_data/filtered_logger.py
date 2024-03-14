@@ -9,7 +9,7 @@ def filter_datum(
         fields: List[str],
         redaction: str,
         message: str,
-        separator: str):
+        separator: str) -> str:
     """returns log message"""
     for field in fields:
         message = (field+'=.*?'+separator,
