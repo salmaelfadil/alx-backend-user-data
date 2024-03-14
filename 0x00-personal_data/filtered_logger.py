@@ -9,9 +9,10 @@ def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """hides sensitive data"""
     for f in fields:
-        message = re.sub(f'{f}=.*?{separator}',
-                         f'{f}={redaction}{separator}', message)
+        message = re.sub(f+'=.*?'+separator,
+                         f+'='+redaction+separator, message)
     return message
+
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
@@ -28,5 +29,5 @@ class RedactingFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         rec = super(RedactingFormatter, self).format(record)
         mess = filter_datum(self.fields, self.REDACTION,
-                rec, self.SEPARATOR)
+                            rec, self.SEPARATOR)
         return mess
