@@ -5,6 +5,9 @@ import re
 import logging
 
 
+PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'ip')
+
+
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """hides sensitive data"""
@@ -32,3 +35,14 @@ class RedactingFormatter(logging.Formatter):
         mess = filter_datum(self.fields, self.REDACTION,
                             rec, self.SEPARATOR)
         return mess
+
+
+def get_logger() -> logging.Logger:
+    """gettter function for logger"""
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    console_handler = logging.StreamHandler()
+    console_handler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.addHandler(console_handler)
+    logger.propagate = False
+    return logger
