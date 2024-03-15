@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Task 0 Module"""
+"""Handeling Personal Data Module"""
 from typing import List
 import re
 import logging
@@ -68,7 +68,7 @@ def main() -> None:
     """main function for reading and filtering data"""
     conn = get_db()
     cursor = conn.cursor()
-    query = ("SELECT * FROM users;")
+    query = "SELECT * FROM users;"
     cursor.execute(query)
     fields = cursor.column_names
     for row in cursor:
