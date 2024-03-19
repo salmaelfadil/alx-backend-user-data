@@ -2,6 +2,7 @@
 """Auth Class"""
 from flask import request
 from typing import List, TypeVar
+import fnmatch
 
 
 class Auth:
@@ -10,11 +11,10 @@ class Auth:
         """require auth function"""
         if path in excluded_paths:
             return False
-        for i in excluded_paths:
-            if path.rstrip('/') == excluded_path.rstrip('/'):
-                return False
-            if path.startswith(excluded_path.rstrip('/') + '/'):
-                return False
+        if path is None:
+            return True
+        if excluded_paths is None or not excluded_paths:
+            return True
         return True
 
     def authorization_header(self, request=None) -> str:
