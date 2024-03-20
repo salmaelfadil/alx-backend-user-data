@@ -17,6 +17,9 @@ AUTH_TYPE = os.getenv("AUTH_TYPE")
 if AUTH_TYPE == "auth":
     from api.v1.auth.auth import Auth
     auth = Auth()
+elif AUTH_TYPE == "basic_auth":
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth()
 
 
 @app.errorhandler(404)
@@ -53,6 +56,7 @@ def bef_request():
             abort(401, description="Unauthorized")
         if auth.current_user(request) is None:
             abort(403, description='Forbidden')
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
