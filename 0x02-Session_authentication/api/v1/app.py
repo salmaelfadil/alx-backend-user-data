@@ -57,7 +57,7 @@ def bef_request():
         if auth.current_user(request) is None:
             abort(403, description='Forbidden')
 
-    request.current_user = auth.current_user(reques)
+    request.current_user = auth.current_user(request)
 
 
 if __name__ == "__main__":
