@@ -8,11 +8,6 @@ from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
 import os
 
-from api.v1.views import app_views
-from api.v1.auth.auth import Auth
-from api.v1.auth.basic_auth import BasicAuth
-from api.v1.auth.session_auth import SessionAuth
-
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -64,10 +59,11 @@ def bef_request():
         user = auth.current_user(request)
         if auth.authorization_header(request) is None and \
                 auth.session_cookie(request) is None:
-                    abort(401)
+            abort(401)
         if user is None:
             abort(403)
     request.current_user = auth.current_user(request)
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
