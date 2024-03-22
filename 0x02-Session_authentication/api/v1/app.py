@@ -60,15 +60,11 @@ def bef_request():
             '/api/v1/forbidden/',
             '/api/v1/auth_session/login/',
             ]
-    if auth.require_auth(request.path, ex_list):
-        if auth.authorization_header(request) is None and \
-                auth.session_cookie(request) is None:
-            abort(401, description="Not Found")
-        if auth.current_user(request) is None:
-            abort(403, description="Forbidden")
 
     request.current_user = auth.current_user(request)
-
+    if auth.authorization_header(request) is None and \
+            auth.session_cookie(request) is None:
+        abort(401)
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
