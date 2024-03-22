@@ -45,7 +45,7 @@ def forbidden(error) -> str:
 
 
 @app.before_request
-def bef_request():
+def before_request():
     """handles before request"""
     if auth is None:
         pass
