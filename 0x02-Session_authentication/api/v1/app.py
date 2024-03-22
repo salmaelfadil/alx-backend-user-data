@@ -53,7 +53,6 @@ def bef_request():
             '/api/v1/status/',
             '/api/v1/unauthorized/',
             '/api/v1/forbidden/',
-            '/api/v1/auth_session/login/',
             ]
     if auth.require_auth(request.path, ex_list):
         user = auth.current_user(request)
@@ -62,7 +61,7 @@ def bef_request():
             abort(401, description="Unauthorized")
         if user is None:
             abort(403, description='Forbidden')
-
+        request.current_user = user
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
