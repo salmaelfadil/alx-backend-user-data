@@ -11,10 +11,11 @@ auth = SessionAuth()
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def login() -> Tuple[str, int]:
+    """login method"""
     email = request.form.get('email')
-    password = request.form.get('password')
     if not email:
         return jsonify({ "error": "email missing" }), 400
+    password = request.form.get('password')
     if not password:
         return jsonify({ "error": "password missing" }), 400
     try:
@@ -22,7 +23,7 @@ def login() -> Tuple[str, int]:
         if not users or users == []:
             return jsonify({ "error": "no user found for this email" }), 404
         for user in users:
-            if user.s_valid_password(password):
+            if user.is_valid_password(password):
                 user_id = user.id
                 from api.v1.app import auth
                 session_id = auth.create_session(user_id)
