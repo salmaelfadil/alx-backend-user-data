@@ -63,7 +63,11 @@ def bef_request():
     if auth.require_auth(request.path, ex_list):
         if auth.authorization_header(request) is None and \
                 auth.session_cookie(request) is None:
-            abort(401)
+            abort(401, description="Unauthorized")
+        if auth.authorization_header(request) is None:
+            abort(401, description="Unauthorized")
+        if auth.current_user(request) is None:
+            abort(403, description='Forbidden')
 
     request.current_user = auth.current_user(request)
 
