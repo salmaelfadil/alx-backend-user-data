@@ -28,7 +28,7 @@ def login() -> Tuple[str, int]:
                 from api.v1.app import auth
                 session_id = auth.create_session(user_id)
                 res = jsonify(user.to_json())
-                response.set_cookie(getenv('SESSION_NAME'), session_id)
+                res.set_cookie(getenv('SESSION_NAME'), session_id)
                 return res
             else:
                 return jsonify({ "error": "wrong password" }), 401
