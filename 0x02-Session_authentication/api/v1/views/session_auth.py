@@ -5,6 +5,7 @@ from api.v1.auth.session_auth import SessionAuth
 from models.user import User
 from api.v1.views import app_views
 from os import getenv
+from typing import Tuple
 
 auth = SessionAuth()
 
