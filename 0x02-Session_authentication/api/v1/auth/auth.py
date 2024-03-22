@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Auth Class"""
-from flask import request, current_app
+from flask import request
 from typing import List, TypeVar
+import os
 
 
 class Auth:
@@ -41,6 +42,5 @@ class Auth:
         """returns cookie value from request"""
         if request is None:
             return None
-        cookie_name = current_app.config.get(
-            'SESSION_NAME', '_my_session_id')
+        cookie_name = os.getenv('SESSION_NAME')
         return request.cookies.get(cookie_name)
