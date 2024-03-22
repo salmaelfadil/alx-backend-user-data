@@ -47,26 +47,21 @@ def forbidden(error) -> str:
 @app.before_request
 def before_request():
     """handles before request"""
-    if auth is None:
-        pass
-    ex_list = [
+    if auth:
+        ex_list = [
             '/api/v1/status/',
             '/api/v1/unauthorized/',
             '/api/v1/forbidden/',
             '/api/v1/auth_session/login/',
             ]
-    if request.path in ex_list:
-        return
-
-    if auth.require_auth(request.path, ex_list):
-        if auth.authorization_header(request) is None and \
-                auth.session_cookie(request) is None:
-            abort(401, description='Unauthorized')
-        if auth.authorization_header(request) is None:
-            abort(401, description="Unauthorized")
-        if auth.current_user(request) is None:
-            abort(403, description='Forbidden')
-        request.current_user = auth.current_user(request)
+        if auth.require_auth(request.path, ex_list):
+            if auth.authorization_header(request) is None and auth.session_cookie(request) is None:
+                abort(401)
+            if auth.authorization_header(request) is None:
+                abort(401)
+            if auth.current_user(request) is None:
+                abort(403)
+            request.current_user = auth.current_user(request)
 
 
 if __name__ == "__main__":
