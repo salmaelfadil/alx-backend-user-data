@@ -5,7 +5,7 @@ from api.v1.auth.session_auth import SessionAuth
 from models.user import User
 from api.v1.views import app_views
 from os import getenv
-from typing import Tuple, Dict
+from typing import Tuple
 
 auth = SessionAuth()
 
@@ -39,7 +39,7 @@ def login() -> Tuple[str, int]:
 
 @app_views.route('/auth_session/logout',
                  methods=['DELETE'], strict_slashes=False)
-def logout() -> Dict:
+def logout():
     """logout method"""
     from api.v1.app import auth
     if auth.destroy_session(request):
