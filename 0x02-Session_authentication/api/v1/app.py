@@ -53,7 +53,7 @@ def forbidden(error) -> str:
 def bef_request():
     """handles before request"""
     if auth is None:
-        pass
+        return
     ex_list = [
             '/api/v1/status/',
             '/api/v1/unauthorized/',
