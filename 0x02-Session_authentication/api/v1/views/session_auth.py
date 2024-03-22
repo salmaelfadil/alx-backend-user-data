@@ -41,6 +41,7 @@ def login() -> Tuple[str, int]:
                  methods=['DELETE'], strict_slashes=False)
 def logout() -> Dict:
     """logout method"""
+    from api.v1.app import auth
     if auth.destroy_session(request):
         return jsonify({}), 200
     else:
