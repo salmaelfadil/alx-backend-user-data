@@ -2,14 +2,19 @@
 """Session Authentication with expirtation"""
 from .session_auth import SessionAuth
 from os import getenv
-from datetime import datetime
+from datetime import datetime, timedelta
+from flask import request
 
 
 class SessionExpAuth(SessionAuth):
     """session expiration class"""
     def __init__(self):
         """initialization method"""
-        self.session_duration = int(getenv('SESSION_DURATION', 0))
+        super().__init__()
+        try:
+            self.session_duration = int(getenv('SESSION_DURATION', 0))
+        except Exception:
+            self.session_duration = 0
 
     def create_session(self, user_id=None):
         """creates session method"""
