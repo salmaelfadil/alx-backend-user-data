@@ -3,6 +3,9 @@
 from .auth import Auth
 import uuid
 from models.user import User
+from flask import request, jsonify, abort
+from api.v1.views import app_views
+
 
 
 class SessionAuth(Auth):
