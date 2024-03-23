@@ -3,9 +3,7 @@
 from .auth import Auth
 import uuid
 from models.user import User
-from flask import request, jsonify, abort
-from api.v1.views import app_views
-
+from typing import TypeVar
 
 
 class SessionAuth(Auth):
@@ -28,8 +26,14 @@ class SessionAuth(Auth):
 
     def current_user(self, request=None) -> User:
         """Returns a user instance baed on cookie value"""
+        if request is None:
+            return None
         cookie = self.session_cookie(request)
+        if cookie is None:
+            return None
         user_id = self.user_id_for_session_id(cookie)
+        if user_id is None:
+            return None
         return User.get(user_id)
 
     def destroy_session(self, request=None) -> bool:
