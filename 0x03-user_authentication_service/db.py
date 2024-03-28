@@ -35,7 +35,7 @@ class DB:
         self._session.commit()
         return row
 
-    def find_user_by(self, **kwargs: Dict) -> int:
+    def find_user_by(self, **kwargs) -> User:
         """Searches for users in db"""
         query = self._session.query(User)
         for key, value in kwargs.items():
@@ -47,7 +47,7 @@ class DB:
             raise NoResultFound()
         return query.first()
 
-    def update_user(self, user_id: int, **kwargs: Dict) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """updates user"""
         user = self.find_user_by(id=user_id)
         for key, value in kwargs.items():
