@@ -37,13 +37,22 @@ class DB:
 
     def find_user_by(self, **kwargs: Dict) -> int:
         """Searches for users in db"""
-        try:
-            query = self._session.query(User)
-            for key, value in kwargs.items():
-                if hasattr(User, key):
-                    query = query.filter(getattr(User, key) == value)
-                else:
-                    raise InvalidRequestError()
-            return query.one()
-        except NoResultFound:
+        query = self._session.query(User)
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                query = query.filter(getattr(User, key) == value)
+            else:
+                raise InvalidRequestError()
+        if query.first() is None:
             raise NoResultFound()
+        return query.first()
+
+    def update_user(self, user_id: int, **kwargs: Dict) -> None:
+        """updates user"""
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                setattr(user, key, value)
+            else:
+                raise ValueError()
+        self._session.commit()
