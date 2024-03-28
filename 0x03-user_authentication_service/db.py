@@ -21,7 +21,7 @@ class DB:
     def _session(self) -> Session:
         """Memoized session object"""
         if self.__session is None:
-            BSession = sessionmaker(bind=self._engine)
+            DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
 
