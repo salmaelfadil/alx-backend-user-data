@@ -40,13 +40,19 @@ class Auth:
         """valudates login"""
         try:
             user = self._db.find_user_by(email=email)
-            if user is not None:
+            if user:
                 return bcrypt.checkpw(password.encode("utf-8"),
                                       user.hashed_password)
         except Exception:
             return False
-        return False
 
     def create_session(self, email) -> str:
         """creates session"""
-        pass
+        try:
+            user = self._db.find_user_by(email=email)
+            if user:
+                session_id = _generate_uuid()
+                self._db.update_user(user.id, session_id=session_id)
+                return session_id
+        except Exception:
+            return None
