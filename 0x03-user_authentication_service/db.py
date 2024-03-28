@@ -43,7 +43,7 @@ class DB:
                 if hasattr(User, key):
                     query = query.filter(getattr(User, key) == value)
                 else:
-                    raise InvalidRequestError
-            return query.first()
+                    raise InvalidRequestError()
+            return query.one()
         except NoResultFound:
-            raise NoResultFound
+            raise NoResultFound()
