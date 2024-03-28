@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """flask app"""
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 app = Flask(__name__)
@@ -40,6 +40,7 @@ def login() -> str:
     else:
         abort(401)
 
+
 @app.route("/sessions", methods=["DELETE"])
 def logout() -> str:
     """logout"""
@@ -49,6 +50,7 @@ def logout() -> str:
         abort(403)
     AUTH.destroy_session(user.id)
     return redirect("/")
+
 
 
 @app.route("/profile", methods=["GET"])
